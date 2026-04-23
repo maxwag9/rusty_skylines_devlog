@@ -1,281 +1,107 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rusty Skylines Devlog</title>
-
-<style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #111;
-    color: #eee;
-    line-height: 1.6;
-}
-
-header {
-    padding: 60px 20px;
-    text-align: center;
-    background: #1b1b1b;
-    border-bottom: 1px solid #333;
-}
-
-header h1 {
-    margin: 0;
-    font-size: 3rem;
-}
-
-header p {
-    color: #aaa;
-    margin-top: 10px;
-}
-
-main {
-    max-width: 900px;
-    margin: auto;
-    padding: 40px 20px;
-}
-
-article {
-    background: #181818;
-    padding: 30px;
-    border-radius: 14px;
-    margin-bottom: 30px;
-    border: 1px solid #2d2d2d;
-}
-
-h2 {
-    margin-top: 0;
-}
-
-.date {
-    color: #282;
-    font-size: 0.95rem;
-}
-
-img {
-    width: 100%;
-    border-radius: 10px;
-    margin-top: 15px;
-}
-
-footer {
-    text-align: center;
-    padding: 30px;
-    color: #262;
-}
-</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Devlog #1 - Six Months In, Alpha v1.7.2</title>
+    <style>
+        :root {
+            --bg: #111;
+            --panel: #171717;
+            --text: #e9e9e9;
+            --muted: #b6b6b6;
+            --accent: #d65a2b;
+            --line: #2b2b2b;
+        }
+        body {
+            margin: 0;
+            background: linear-gradient(180deg, #121212, #0d0d0d);
+            color: var(--text);
+            font: 16px/1.65 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        main {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 32px 20px 64px;
+        }
+        article {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 28px 24px 36px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.28);
+        }
+        h1, h2 {
+            line-height: 1.2;
+            margin: 1.2em 0 0.5em;
+            font-weight: 750;
+        }
+        h1 {
+            margin-top: 0;
+            font-size: clamp(2rem, 4vw, 3rem);
+        }
+        h2 {
+            font-size: clamp(1.35rem, 2vw, 1.8rem);
+            padding-top: 0.2em;
+            border-top: 1px solid var(--line);
+        }
+        p, li {
+            white-space: pre-wrap;
+            margin: 0.8em 0;
+        }
+        ul, ol {
+            padding-left: 1.4rem;
+            margin: 0.6em 0 1em;
+        }
+        li {
+            margin: 0.45em 0;
+        }
+        .rust {
+            color: var(--accent);
+            font-weight: 700;
+        }
+        a {
+            color: #7ab7ff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        figure.media {
+            margin: 1.2rem 0 1.4rem;
+        }
+        figure.media img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            background: #090909;
+        }
+        figure.media video {
+            display: block;
+            width: min(640px, 100%);
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            background: #090909;
+        }
+        figcaption {
+            color: var(--muted);
+            font-size: 0.92rem;
+            margin-top: 0.35rem;
+        }
+        .text {
+            font-size: 1.02rem;
+        }
+    </style>
 </head>
-
 <body>
-
-<header>
-    <h1>Rusty Skylines</h1>
-    <p>Devlog for my custom-engine city builder made in Rust + WGPU</p>
-</header>
-
 <main>
-
-<article>
-    <h2>Devlog #1 - Six Months In, Alpha v1.7.2</h2>
-    <p class="date">22 April 2026 11:33</p>
-
-    <p>After six months of development, I write my very first devlog!</p>
-
-    <p>I never actually told you what my game is, so here you go:
-
-        Rusty Skylines is a Citybuilder that strives to be better than Cities Skylines 2 in many ways.
-        I program it in Rust and use the Rendering Library WGPU for all the GPU stuff.
-        Overall I like programming in Rust and WGPU is very good and explicit, just like germans! (I'm from germany)
-        My goals with this game are to make a Citybuilder worth playing a lot, with bigger cities and even countries than any other game allows.
-        Just look at this Bulletin I made so you can see some goals my game has:    </p>
-    <ul>
-        <li>Way better GPU AND CPU Performance than CS2</li>
-        <li>UNDER 100MB Game Size compared to 60GB of CS2</li>
-        <li>Way better Zoning and lot placement system that feels intuitive and satisfying, but most importantly is NOT Grid-Based and can fill weird gaps in Zoning, unlike CS2</li>
-        <li>Chunk-based world architecture, so INFINITE World, so you can make mega-cities and countries</li>
-        <li>Smarter and faster Traffic simulation by using Signfinding instead of Pathfinding</li>
-        <li>QoL features like Zooming with 'C', F3 Menu and more!</li>
-    </ul>
-        
-    <p>
-        This game has been a dream of mine for a year now.
-        I will just tell you the story of how it got to be that I am making this game and trying to compete with giants like Cities Skylines 2.
-
-        So as you read this, you might notice my obsession with Cities Skylines 2!
-        This is not an accident, as that games' poor performance directly led to my game.
-
-        In 2025 I and my family flew to a vacation in turkey. I took my laptop with me, Cities Skylines 2 installed.
-        There in the hotel room, I sometimes wanted to play, so I did.
-        My laptop is a Gigabyte Aero 15 OLED KC with an RTX 3060 Mobile.
-        The game lagged heavily... It lagged so bad that I had to switch to 1080p and dlss on Performance!
-        Even then I only had around 30-40 FPS maybe, and that was with the Power Plug attached.
-        This was unaceptable to me, and that wasn't the only issue I had with CS2.
-        I also complained about the dumbass traffic that sometimes does the most horrendous maneuvers, like a 3 pointer to get from the left most lane to the highway exit, making unavoidable traffic jams.
-        And the zoning was NOT too much better than in CS1, still Grid-based and leaving gaps between lots, which basically forces you to either have ugly city planning, or completely square/rectangular blocks!
-        The scaling of CS2 also feels off. Power plants might be not too much bigger than a suburb house!
-
-        Well ok, enough ranting.
-        At the beach, I played with the idea that I might program a city builder, can't be too hard, right??
-        So I asked ChatGPT some questions about something I had in mind...
-        I saw lots of videos about Rust, but knew nothing about it. I already hated C++ for no reason idk why, 
-        and hated engines like unity because they had that scandal with the high licensing costs or smth, 
-        and hated unreal engine because they made game development companies complacent with optimization, ruining the performance and visual quality of a lot of games made in it.
-
-
-        Just for your information: 
-        My only experience in programming was PYTHON, that's it!
-        I made like 5 games in python using Pygame!
-        Some of them bigger than the others, some better some worse...
-        But guess what they all have in common? It's basically making your own game engine!
-
-        ChatGPT gave me some options I knew nothing about: Bevy, Ash or WGPU.
-        WTF are they? I didn't know jackshit!
-        I wanted to make my game in Vulkan, so I chose ash.
-        But then I saw how INSANE Ash is, that even a triangle needs 1000 Lines of code or so!
-        Bevy is a game engine, I didn't want that constraint for my game.
-        So WGPU it is! And here I am today!
-
-        So at home, I started programming in Rust directly.
-        Like, from 0 Rust Knowledge!
-        I actually followed the Rust Programming Course book, the official one but with the studies, and got to about chapter 3 or 4 when I was overwhelmed and just started making my game.
-        I'm NOT gonna Lie, this game would maybe have been impossible without AI. I used AI heavily in the early learning days to learn rust and make the game in the process.
-        Nowadays I only occasionally use AI for some hard or boring tasks, but way more coding myself because AI can't make my game like I picture it.
-        Don't get me wrong, I HATE AI!!!
-        Mainly Video and Image and Audio generation, which are completely useless and actually a detriment to society.
-        I will never use AI to make any assets for my game, only to make some code when I want to.
-        Thank god at least Sora shut down.
-
-        Anyway, let's get to my game again.
-
-        Rusty Skylines is made in Rust and WGPU.
-        I actually made a whole rendering crate: <a href="https://github.com/maxwag9/wgpu_render_manager" target="_blank" rel="noopener noreferrer">wgpu_render_manager</a>
-        Because othe people deserve to use WGPU more easily without making Bind Groups and BGLs and pipelines and everything manually!
-        YOU DON'T EVEN KNOW how insanely easier it is to render using my rendering crate, it will save you so much time handling all the WGPU expliciteness crap!
-        You can still do nearly anything you want using my rendering crate what you can do with plain WGPU.
-        If you are making a game in Rust, you might check it out!
-
-        I don't use an ECS. 
-        My UI is completely custom and procedural, stored in yaml files so you can edit the in-game UI, all of it!
-        The UI has powerful actions and live expression system aswell, I even made Ping Pong just in my UI system!
-        It is still developing and has rough edges, but it's getting there...
-
-
-
-        Alright let's talk about what my game has so far!
-        Let's start with the infinite World!
-        The World is infinite and every position everywhere is chunked, instead of xyz of f32 like a Vec3.
-        This complicates programming a bit, but is worth it, because even at low distances, f32 loses so much precision that everything shakes, even just a few kilometers far away from 0, 0, 0!
-        The terrain is procedurally generated, and multithreaded. It looks SHIT for now.
-
-        But if you look up at the sky, you might notice my over-the-top ASTRONOMY system!
-        You can see that the moon has realistic moon phases based on the sun, just like the real moon.
-        Behind them are stars.
-        There are about 118k stars up there, because I literally downloaded them from some astronomy website (look it up in the readme or the commits),
-        and render them individually in the game to the sky!
-        These stars rotate around earth properly too...
-        Just look at it:
-
-
-
-        The roads in my City Builder are designed to be performant and logical, future proof for my future Car AI.
-        They are LANE based as opposed to CS2s maybe SEGMENT based.
-        The lanes are the ones who make the geometry of the road, everything renders based on them and the nodelanes of the intersections.
-        I automatically make a partition tree for the roads so I have them for the future Car AI.
-        The intersections are generated using Clipper and the arms of the intersection to get near perfect intersection geometry, even at long and big intersections.
-        I don't support bridges and tunnels yet...
-
-        Ok whatever, so, how are cars looking?
-        Cars just spawn at road nodes and drive around randomly for now...
-        Cars are special in that they have RT shadows, yes, ray tracing. Maybe a waste of time? I haven't been able to blur the RT shadow edges properly...
-        YOU can drive a car yourself btw!
-
-        Right now I am working on the all-new Zoning and Area tools! Looks good so far! I will make it kind of like CityState: Metropolis with its Zoning tool! But also some of my own ideas here and there...
-        The Zones will be Residential, Commercial, Industrial and Office for now, and no density! Density will be settable per Lot or inferred by the simulation to prevent skyscrapes right next to slums or suburbs as you can guess!
-
-        Oh and the buildings will be insanely hard to make, PROBABLY maybe not!
-        Because I want more variety and no textures and no models in my game (remember my under 100MB limit of my game size I talked about?)
-        I will NOT make or use any big textures and Models at all in my game!
-        The buildings will be PROCEDURALLY generated and YOU will have control if you want to!
-        Props will be procedurally generated, textures will be stored in SHADERS that will make the textures when needed.
-        The MEMORY and VRAM usage might be lower too!
-
-        The game startup and shutdown times might be near instant!
-
-        Sounds will be procedurally generated, maybe.
-
-        Ok where do I end this devlog?
-
-        I guess I have to talk about my development struggles!
-        For the first 1.5 months, I only focused on UI and had nothing else. You can actually play that version: https://github.com/maxwag9/rusty_skylines/releases/tag/alpha_v1.1.0b
-        Then suddenly I made terrain, water and sky and it felt awesome to make this much progress!
-
-        The water had insane Z-Fighting issues, because I used normal Z depth! 
-        So I split the entire world into above water and below water, then used depth stencils, which fixed it.
-        But now I have reversed depth Z, so that issue would be solved anyway...
-        Then the Shadow issues with CSM started, looking bad at every cacade, still not fixed. Then I made RT for cars in a week, useless I think...
-
-        At some point at month 4, I saw that my positions for everything were extremely imprecise at 20km+ distances, causing everything to jitter and flicker out there.
-        So I refactored my ENTIRE game to use WorldPos instead of Vec3 for positions. 
-        WorldPos is: cx: i32, cz: i32 and local x: f32, y: f32, z: f32.
-        Each chunk, the local position is reset, so it never goes above chunk size large, so precision is good for like Quadrillions of Kilometers I think!
-
-        Right now I am struggling with making the game playable, with a big youtube addiction eating my time and sleep deprivation since 4 years already.
-        But I am getting there, doing self-improvement by meditating and training and making my sleep schedule good.
-
-
-        Ok to end my devlog, let's talk about my competition.
-        Who is on the market right now?
-        1. Cities Skylines
-        CS1 is old, but it is still quite popular.
-        CS2 is the current best game in this genre, or supposed to be.
-        The new developers 'IceFlake Studios' seems to be updating the game and responding to the community very well!
-        But Cities Skylines still has lots of flaws that I want to address with my game.
-
-        2. Citystate: Metropolis
-        A City Builder coming in Q2 2026.
-        I think it is made in Unity, just like CS, so it inherits its limits too.
-        It seems very promising and hyped, with gridless zoning and beautiful graphics and more. I would count on this game to beat CS2.
-
-        3. City Masterplan
-        A trailer dropped by some random chinese studio, showing impressive game cinematic footage.
-        Double the size of CS2 Map, built in Unreal Engine.
-        Might be a cash grab, but let's see.
-
-        4. Egregoria
-        Not competing at all, but I wanted to mention it.
-        Egregoria is a Ctiy Builder made in Rust and WGPU, just like my game is.
-        It evolved over time from a 2D city builder to a 3D city builder.
-        It explores the concept of 'Egregore' which from my understanding is lots of people making lots of decisions and interesting stuff emerging from it-
-        Bad explanation but whatever.
-        I included it here because it is a very interesting game to me, showing what is possible in Rust and WGPU.
-        And especially because I am making a City Builder, this is right down my lane.
-        Sadly, Paris, the french guy who made that game, stopped working on the game because it just takes up too much time and is hard.
-        Very understandable!
-        Egregoria: https://douady.paris/index.html
-    </p>
-
-
-    <p>My game has a goal to be better than CS2 in the areas I talked about. I will just continue to work on the game Full-Time, time will pass anyway!</p>
-
-    <p>Next goals:</p>
-    <ul>
-        <li>Buildings building from demand</li>
-        <li>Buildings being procedurally generated and actually rendered</li>
-        <li>Economy</li>
-        <li>GUI</li>
-    </ul>
-
-    <p>Thanks for reading! 🫡</p>
-
-</article>
-
+    <article>
+        <h1>Devlog #1 - Six Months In, Alpha v1.7.2   22 April 2026 11:33, now 22:15</h1><p class="text">After six months of development, I write my very first devlog!</p><figure class="media"><img src="https://github.com/user-attachments/assets/cc4c3956-dd11-4ad8-89cd-0813bb012fed" alt="General Scenery" width="2560" height="1400"></figure><p class="text">I never actually told you what my game is, so here you go:</p><p class="text"><span class="rust">Rusty</span> Skylines is a Citybuilder made by me, Maxim!</p><p class="text">I have the arrogant goal to be better than Cities Skylines 2 in many ways. 👹</p><p class="text">I program it in <span class="rust">Rust</span> and use the Rendering Library WGPU for all the GPU stuff. Overall I like programming in <span class="rust">Rust</span>, and WGPU is very good and explicit, just like germans! (I&#x27;m from germany) My goals with this game are to make a Citybuilder worth playing, while fixing some of the issues I personally had with other City Builders.</p><p class="text">Look at this Bulletin I made so you can see some Goals my game has:</p><ul><li>Better GPU AND CPU Performance than CS2</li><li>UNDER 100MB Game Size compared to 60GB of CS2</li><li>Better Zoning and lot placement system that feels intuitive and satisfying, but most importantly is NOT Grid-Based and can fill weird gaps in Zoning, unlike CS2</li><li>Chunk-based world architecture, INFINITE World, so you can make mega-cities and countries</li><li>Smarter and faster Traffic simulation by using Signfinding instead of Pathfinding</li><li>QoL features like Zooming with &#x27;C&#x27;, F3 Menu and more! </li></ul><figure class="media"><video src="https://github.com/user-attachments/assets/315a4c4c-883d-48d0-bbeb-42f8654e967b" width="640" autoplay muted loop playsinline></video><figcaption>zooming.webm</figcaption></figure><p class="text">MIND YOU these are just goals of mine, they may change. Also, some of these goals haven’t yet been reached!</p><p class="text">This game has been a dream of mine for a year now.</p><p class="text">I will just tell you the story of how it got to be that I am making this game and trying to compete with giants like Cities Skylines 2. It is a BIG commitment and I am way over my head to be doing this, but just let me try…</p><p class="text">So as you read this, you might notice my obsession with Cities Skylines 2!</p><p class="text">This is not an accident, because the poor performance of CS2 directly led to my game.</p><h2>Anime evil backstory</h2><p class="text">In 2025 I and my family flew to a vacation in turkey. I took my laptop with me, Cities Skylines 2 installed. There in the hotel room, I sometimes wanted to play, so I did. My laptop is a Gigabyte Aero 15 OLED KC with an RTX 3060 Mobile. The game lagged heavily... It lagged so bad that I had to switch to 1080p and dlss on Performance! Even then I only had around 30-40 FPS maybe, and that was with the Power Plug attached. This was unaceptable to me, and that wasn&#x27;t the only issue I had with CS2.</p><p class="text">I also complained about the traffic that sometimes does the most horrendous maneuvers, like a 3 pointer to get from the left most lane to the highway exit, making unavoidable traffic jams. And the zoning was not too much better than in CS1, still Grid-based and leaving gaps between lots, which basically forces you to either have ugly city planning, or completely square/rectangular blocks! The scaling of CS2 also feels off. Power plants might be not too much bigger than a suburb house! Well ok, enough ranting. </p><p class="text">Don’t get me wrong, Cities Skylines is an excellent City Builder, but I would like the issues I mentioned to be resolved!</p><h2>Choosing my engine?</h2><p class="text">At the beach, I played with the idea that I might program a city builder, can&#x27;t be too hard, right?? So I asked ChatGPT some questions about something I had in mind... I saw lots of videos about <span class="rust">Rust</span>, but knew nothing about it. I already hated C++ for no reason idk why, and didn’t like engines like Unity because they had that scandal with the high licensing costs or smth, and didn’t like Unreal Engine because they made some game development companies complacent with optimization,  sometimes ruining the performance and visual quality of games made in it. </p><h2>Starting to program</h2><p class="text">Just for your information: My only experience in programming was Python, that&#x27;s it! I made like 5 games in python using Pygame! Some of them bigger than the others, some better some worse... But guess what they all have in common? It&#x27;s basically making your own game engine! </p><p class="text">Anyway, ChatGPT gave me some options I knew nothing about: Bevy, Ash or WGPU. WTF are they? I didn&#x27;t know jackshit! </p><p class="text">I wanted to make my game in Vulkan, so I chose ash. But then I saw how INSANE Ash is, that even a triangle needs 1000 Lines of code or so! </p><p class="text">Bevy is a game engine, I didn&#x27;t want that constraint for my game. So WGPU it is! Btw I never made games with game engines, I was always more into making my own engine… I have nothing against games made in game engines, there have been so many awesome games! They make developing a game WAY easier</p><p class="text">So at home, I started programming in <span class="rust">Rust</span> directly. Like, from 0 <span class="rust">Rust</span> Knowledge! I actually followed the <span class="rust">Rust</span> Programming Course book, the official one but with the studies, and got to about chapter 3 or 4 when I was overwhelmed and just started making my game. </p><h2>AI</h2><p class="text">I&#x27;m NOT gonna lie, this game would maybe have been impossible without AI. I used AI heavily in the early learning days to learn <span class="rust">rust</span> and make the game in the process. Nowadays I only occasionally use AI for some hard or boring tasks, but way more coding myself because AI can&#x27;t make my game like I picture it. </p><p class="text">Don&#x27;t get me wrong, I HATE AI!!! Mainly Video and Image and Audio generation, which are completely useless and actually a detriment to society. I will never use AI to make any assets for my game, only to make some code when I want to. Thank god at least Sora shut down. In the first few days, 95% of code was AI, the next weeks 60%, the next months 30% down to 10% and nowadays probably 10% or lower, as I am more capable in <span class="rust">Rust</span>…</p><h2>My Rendering Crate</h2><p class="text">Anyway, let&#x27;s get to my game again. <span class="rust">Rusty</span> Skylines is made in <span class="rust">Rust</span> and WGPU. I actually made a whole rendering crate to reduce the boilerplate of WGPU: <a href="https://github.com/maxwag9/wgpu_render_manager" rel="noopener noreferrer">wgpu_render_manager</a> </p><p class="text">Because other people deserve to use WGPU more easily without making Bind Groups and BGLs and pipelines and everything manually! From my personal experience, it makes it much easier to render using my rendering crate. I believe it might save you so a lot of time handling all the WGPU expliciteness boilerplate! You can still do nearly anything you want using my rendering crate what you can do with plain WGPU. </p><p class="text">If you are making a game in <span class="rust">Rust</span>, you might check it out! </p><h2>UI</h2><p class="text">My UI is completely custom and procedural, stored in yaml files so you can edit the in-game UI, all of it! The UI has powerful actions and a live expression system aswell, I even made Ping Pong just in my UI system! It is still developing and has rough edges, but it&#x27;s getting there... </p><figure class="media"><img src="https://github.com/user-attachments/assets/62f6bc08-ea91-4cc3-9903-17a97ef44faf" alt="GUI" width="2560" height="1400"></figure><figure class="media"><video src="https://github.com/user-attachments/assets/9ca6d743-6967-4015-9bfc-ce0a9221346a" width="640" autoplay muted loop playsinline></video><figcaption>pingpong.webm</figcaption></figure><h2>Coords</h2><p class="text">Alright let&#x27;s talk about what my game has so far! Let&#x27;s start with the infinite World! The World is infinite and every position everywhere is chunked, instead of xyz of f32 like a Vec3. This complicates programming a bit, but is worth it, because even at low distances, f32 loses so much precision that everything shakes, even just a few kilometers far away from 0, 0, 0! </p><h2>Terrain and the SKY!</h2><p class="text">The terrain is procedurally generated, and multithreaded. It looks pretty bad for now. It will of course improve though!</p><p class="text">But if you look up at the sky, you might notice my over-the-top ASTRONOMY system! You can see that the moon has realistic moon phases based on the sun, just like the real moon. Behind them are stars. There are about 118k stars up there, because I literally downloaded them from some astronomy website (look it up in the readme or the commits), and render them individually in the game to the sky! These stars rotate around earth properly too... </p><p class="text">Just look at the sky: *Sky image here*</p><h2>Roads</h2><p class="text">The roads in my City Builder are designed to be performant, logical and future proof for my future Car AI. They are LANE based as opposed to CS2s maybe SEGMENT based. The lanes are the ones who make the geometry of the road, everything renders based on them and the nodelanes of the intersections. I automatically make a partition tree for the roads so I have them for the future Car AI. The intersections are generated using Clipper and the arms of the intersection to get near perfect intersection geometry, even at long and big intersections. I don&#x27;t support bridges and tunnels yet... Ok whatever, so, how are cars looking? </p><h2>Cars (Short Section…)</h2><p class="text">Cars just spawn at road nodes and drive around randomly for now... Cars are special in that they have RT shadows, yes, ray tracing. Maybe a waste of time? I haven&#x27;t been able to blur the RT shadow edges properly... YOU can drive a car yourself btw! </p><figure class="media"><video src="https://github.com/user-attachments/assets/0d2afc86-fda5-4ada-b0b7-7b710550437f" width="640" autoplay muted loop playsinline></video><figcaption>driving.webm</figcaption></figure><h2>Zoning and Area</h2><p class="text">Right now I am working on the all-new Zoning and Area tools! Looks good so far! I will make it kind of like CityState: Metropolis with its Zoning tool! But also some of my own ideas here and there... The Zones will be Residential, Commercial, Industrial and Office for now, and no density! Density will be settable per Lot or inferred by the simulation to prevent skyscrapes right next to slums or suburbs as you can guess! </p><figure class="media"><video src="https://github.com/user-attachments/assets/6b4bbc6e-a08f-44c6-b1c2-1d563422586b" width="640" autoplay muted loop playsinline></video><figcaption>zoning.webm</figcaption></figure><figure class="media"><video src="https://github.com/user-attachments/assets/efe93394-f618-4910-8ae0-b98774b612c5" width="640" autoplay muted loop playsinline></video><figcaption>area.webm</figcaption></figure><h2>Buildings and Proceduralism</h2><p class="text">Oh and the buildings may be very hard to make, or maybe not. Because I want more variety and no textures and no models in my game (remember my under 100MB limit of my game size I talked about?) I will NOT make or use any big textures and Models at all in my game! The buildings will be PROCEDURALLY generated and YOU will have control if you want to! Props will be procedurally generated, textures will be stored in SHADERS that will make the textures when needed. The MEMORY and VRAM usage might be lower too! (I don’t actually know though)</p><p class="text"> The game startup and shutdown times might be near instant! Sounds will be procedurally generated, maybe. Ok where do I end this devlog? I guess I have to talk about my development struggles! </p><figure class="media"><video src="https://github.com/user-attachments/assets/062128ea-8929-4bf1-b1f7-0045f5354601" width="640" autoplay muted loop playsinline></video><figcaption>props.webm</figcaption></figure><h2>Struggles</h2><p class="text">For the first 1.5 months, I only focused on UI and had nothing else. You can actually play that version: https://github.com/maxwag9/rusty_skylines/releases/tag/alpha_v1.1.0b </p><p class="text">UI now: </p><figure class="media"><video src="https://github.com/user-attachments/assets/391f070d-25cf-483f-9896-5bb7f7ea2863" width="640" autoplay muted loop playsinline></video><figcaption>gui.webm</figcaption></figure><p class="text">Then suddenly I made terrain, water and sky and it felt awesome to make this much progress! The water had insane Z-Fighting issues, because I used normal Z depth! So I split the entire world into above water and below water, then used depth stencils, which fixed it. But now I have reversed depth Z, so that issue would be solved anyway... </p><p class="text">Then the Shadow issues with CSM started, looking bad at every cacade, still not fixed. Then I made RT for cars in a week, useless I think... At some point at month 4, I saw that my positions for everything were extremely imprecise at 20km+ distances, causing everything to jitter and flicker out there. So I refactored my ENTIRE game to use WorldPos instead of Vec3 for positions. WorldPos is: cx: i32, cz: i32 and local x: f32, y: f32, z: f32. </p><p class="text">At each chunk, the local position is reset, so local never goes above chunk size large, so precision is good for like Quadrillions of Kilometers I think! Right now I am struggling with making the game playable, with a big youtube addiction eating my time and sleep deprivation since 4 years already. But I am getting there, doing self-improvement by meditating and training and making my sleep schedule good. </p><h2>Competition?</h2><p class="text">Ok to end my devlog, let&#x27;s talk about my competition. Who is on the market right now? </p><ol><li>CS1 is old, but it is still quite popular. CS2 is the current best game in this genre. The new developers &#x27;IceFlake Studios&#x27; seems to be updating the game and responding to the community very well! My main inspiration to make my game.</li><li>Citystate: Metropolis, A City Builder coming in Q2 2026. I think it is made in Unity, just like CS. It seems very promising and hyped, with gridless zoning and beautiful graphics and more. I would count on this game to beat CS2.</li><li>City Masterplan. A trailer dropped by some random chinese studio, showing impressive game cinematic footage. Double the size of CS2 Map, built in Unreal Engine. Might be a cash grab, but let&#x27;s see. They have beautiful graphics and seasons and dynamic weather! But their Zoning still seems to be grid based, but we actually don’t know.</li><li>Egregoria. Not competing at all, but I wanted to mention it. Egregoria is a Ctiy Builder made in <span class="rust">Rust</span> and WGPU, just like my game is. It evolved over time from a 2D city builder to a 3D city builder. It explores the concept of &#x27;Egregore&#x27; which from my understanding is lots of people making lots of decisions and interesting stuff emerging from it- Bad explanation but whatever. I included it here because it is a very interesting game to me, showing what is possible in <span class="rust">Rust</span> and WGPU. And especially because I am making a City Builder, this is right down my lane. Sadly, Paris, the french guy who made that game, stopped working on the game because it just takes up too much time and is hard. Very understandable! Egregoria: https://douady.paris/index.html</li></ol><p class="text">I will just continue to work on my game Full-Time, time will pass anyway! What’s important is my health while making it, not becoming too burnt out or sleep deprived, and the final product! (And of course the FUN)</p><p class="text">Next goals:</p><ul><li>Buildings building from demand</li><li>Buildings being procedurally generated and actually rendered</li><li>Economy</li><li>GUI</li><li>Generally making the game actually playable!</li></ul><p class="text">Shoutout to Minecraft for bringing me into the whole computer stuff in the first place and for making my childhood, I will never forget PS3 Legacy edition!</p><p class="text">Thanks for reading! 🫡</p>
+    </article>
 </main>
-
-<footer>
-    Rusty Skylines Development Log, by maxwag9!
-</footer>
-
 </body>
 </html>
